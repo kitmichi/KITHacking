@@ -58,7 +58,7 @@ def study_plan_to_pmwiki_table(data):
         process_item(key, value)
     return pmwiki
 
-if __name__ == "__main__":
+def main():
 	study_plan = get_study_plan()
 
 	# Convert JSON to PmWiki table
@@ -72,3 +72,6 @@ if __name__ == "__main__":
 		file.write(pmwiki_table)
 
 	print(f"The study plan has been successfully converted to a PmWiki table format and saved to '{pmwiki_file_path}'.")
+
+if __name__ == "__main__":
+	main()

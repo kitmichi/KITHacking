@@ -98,6 +98,9 @@ class SpecializationsExtractor:
             self.print_lectures_table_to_file(data[key], file_path=Path(__file__).parent / f"specializations/{key}/output.pmwiki")
         logging.info("Extraction process completed")
 
-if __name__ == "__main__":
+def main():
     extractor = SpecializationsExtractor()
     extractor.extract_and_print_tables()
+
+if __name__ == "__main__":
+    main()
