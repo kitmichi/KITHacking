@@ -8,18 +8,6 @@ from collections import Counter
 
 import requests
 
-def get_pdf():
-    url = "https://www.etit.kit.edu/rd_download/SGS/ETIT/empfohlene%20Wahlmodule/VR09_empfohlene_Wahlmodule.pdf"
-    filename = os.path.basename(url)
-    pdfPath = Path(__file__).parent / filename
-
-    response = requests.get(url)
-    with open(pdfPath, 'wb') as file:
-        file.write(response.content)
-
-    print(f"PDF saved to {pdfPath}")
-    return pdfPath
-
 # Function to convert PDF to HTML while preserving layout
 def pdf_to_html_preserve_layout(pdfPath:Path):
     # Get the current directory of the script
@@ -121,31 +109,48 @@ def generate_pmwiki_table(table):
     
     return pmwiki_table
 
+class PdfModulesExtractor:
+    def __init__(self, base_dir:Path=Path(__file__).parent):
+        self.base_dir = base_dir
 
-def main():
-	# Example usage
-	pdfPath = get_pdf()
+    def get_pdf(self):
+        url = "https://www.etit.kit.edu/rd_download/SGS/ETIT/empfohlene%20Wahlmodule/VR09_empfohlene_Wahlmodule.pdf"
+        filename = os.path.basename(url)
+        pdfPath = self.base_dir / filename
 
-	# Convert the provided PDF file to HTML
-	htmlPath = pdf_to_html_preserve_layout(pdfPath)
+        response = requests.get(url)
+        with open(pdfPath, 'wb') as file:
+            file.write(response.content)
 
-	print(f"The PDF has been successfully converted to HTML and saved as '{htmlPath}'.")
+        print(f"PDF saved to {pdfPath}")
+        return pdfPath
 
-	positions = get_absolute_positions(htmlPath)
-	filtered_positions = filter_table_cells(positions)
-	table = create_table(filtered_positions)
 
-	# Generate pmwiki table
-	pmwiki_table = generate_pmwiki_table(table)
 
-	# Print the pmwiki table
-	print(pmwiki_table)
+    def main(self):
+        # Example usage
+        pdfPath = self.get_pdf()
 
-	# Optionally, save the pmwiki table to a text file
-	pmwiki_file = htmlPath.with_suffix(".pmwiki")
-	with open(pmwiki_file, 'w') as f:
-		f.write(pmwiki_table)
-	print(f"pmwiki file storad at '{pmwiki_file}'")
+        # Convert the provided PDF file to HTML
+        htmlPath = pdf_to_html_preserve_layout(pdfPath)
+
+        print(f"The PDF has been successfully converted to HTML and saved as '{htmlPath}'.")
+
+        positions = get_absolute_positions(htmlPath)
+        filtered_positions = filter_table_cells(positions)
+        table = create_table(filtered_positions)
+
+        # Generate pmwiki table
+        pmwiki_table = generate_pmwiki_table(table)
+
+        # Print the pmwiki table
+        print(pmwiki_table)
+
+        # Optionally, save the pmwiki table to a text file
+        pmwiki_file = htmlPath.with_suffix(".pmwiki")
+        with open(pmwiki_file, 'w') as f:
+            f.write(pmwiki_table)
+        print(f"pmwiki file storad at '{pmwiki_file}'")
 
 if __name__ == "__main__":
-    main()
+    PdfModulesExtractor().main()
