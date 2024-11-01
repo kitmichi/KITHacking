@@ -1,8 +1,10 @@
-name: KITHacking
 channels:
   - https://repo.anaconda.com/pkgs/main
   - https://repo.anaconda.com/pkgs/r
 dependencies:
-  - python=3.12
+  - anaconda::pandas
+  - conda-forge::pyyaml
   - conda-forge::selenium
   - conda-forge::webdriver-manager
+  - python=3.12
+  - kitmichi::pypdf2htmlex
