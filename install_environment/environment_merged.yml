@@ -8,3 +8,5 @@ dependencies:
 - conda-forge::webdriver-manager
 - python=3.12
 - kitmichi::pypdf2htmlex
+- pytest
+- flake8
