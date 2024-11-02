@@ -2,6 +2,7 @@ from pathlib import Path
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
@@ -13,7 +14,12 @@ def get_study_plan():
 	url = "https://campus.studium.kit.edu/events/audience.php#!campus/all/abstractStudyScheduleView.asp?gguid=0xF654B5E6CC6842A8B943858D89F69741&capvguid=0x32F8959548FE4CE8A0EA1FCE19956FB7"
 
 	# Initialize the WebDriver
-	driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+	options = Options()
+	options.add_argument('--headless')
+	options.add_argument('--no-sandbox')
+	options.add_argument('--disable-dev-shm-usage')
+
+	driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
 	# Open the URL
 	driver.get(url)
