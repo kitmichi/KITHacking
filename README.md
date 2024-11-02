@@ -1,11 +1,12 @@
 # Purpose
-The purpose of this project is to
+The purpose and the goal of this project is to
 - extract information from KIT Campus Management system
 - set up a database for further automatic processing of information
 - provide a platform/an app that notifies user if something changes, after subscribing to relevant notifications
 - provide a platform/an app where you can easily find relevant WhatsApp and Signal groups for lectures and laboratories
 - provide a platform/an app where you can easily find and share ilias passwords and other relevant information
 - provide a platform/an app where you can set up a shared community calendar where changes can be made by all users to update information of events as soon as possible with notification option if someone changed an event
+- provide a platform/an app that integrates a mailing system for xxxxx@student.kit.edu addresses with notification feature
 
 # set up build system
 ```
