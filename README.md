@@ -6,6 +6,9 @@ The purpose and the goal of this project is to
 - provide a platform/an app where you can easily find relevant WhatsApp and Signal groups for lectures and laboratories
 - provide a platform/an app where you can easily find and share ilias passwords and other relevant information
 - provide a platform/an app where you can set up a shared community calendar where changes can be made by all users to update information of events as soon as possible with notification option if someone changed an event
+  - background 1: responsible people for lectures are not able to set up a flexible schedule for their lectures so they write their schedule on the homepage of their institute
+  - background 2: responsible people for lectures are not able to notifiy people through Campus if a lecture room or time or anything changes
+  - background 3: users can't merge their private or work calendar into Campus calendar so selecting lectures at the start of the semester is cumbersome
 - provide a platform/an app that integrates a mailing system for xxxxx@student.kit.edu addresses with notification feature
 
 # set up build system
