@@ -32,16 +32,16 @@ jobs:
         conda env update --file install_environment/environment.yml --name test-environment
     - name: Clone pdf2htmlEX repository
       run: |
-        git clone https://github.com/telmop/pdf2htmlEX.git
-        cd pdf2htmlEX
+        TEMP_DIR=$(mktemp -d)
+        git clone https://github.com/telmop/pdf2htmlEX.git $TEMP_DIR/pdf2htmlEX
+        cd $TEMP_DIR/pdf2htmlEX
         ./buildScripts/buildInstallLocallyApt
-        cd ..
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
-        conda run -n test-environment flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        conda run -n test-environment flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --exclude=$TEMP_DIR
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        conda run -n test-environment flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+        conda run -n test-environment flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics --exclude=$TEMP_DIR
     - name: Install Google Chrome
       run: |
         sudo apt-get update
