@@ -10,7 +10,8 @@ import logging
 from pathlib import Path
 
 class SpecializationsExtractor:
-    def __init__(self):
+    def __init__(self, base_dir=Path(__file__).parent):
+        self.base_dir = base_dir
         options = Options()
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
@@ -95,7 +96,7 @@ class SpecializationsExtractor:
         data = self.get_specializations_links(url)
         for key in data:
             logging.info(f"Processing specialization: {key}")
-            self.print_lectures_table_to_file(data[key], file_path=Path(__file__).parent / f"specializations/{key}/output.pmwiki")
+            self.print_lectures_table_to_file(data[key], file_path=self.base_dir / f"specializations/{key}/output.pmwiki")
         logging.info("Extraction process completed")
 
 def main():
