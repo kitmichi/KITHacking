@@ -58,14 +58,14 @@ def study_plan_to_pmwiki_table(data):
         process_item(key, value)
     return pmwiki
 
-def main():
+def main(base_dir = Path(__file__).parent):
 	study_plan = get_study_plan()
 
 	# Convert JSON to PmWiki table
 	pmwiki_table = study_plan_to_pmwiki_table(study_plan)
 
 	# Path to save the PmWiki table file
-	pmwiki_file_path = Path(__file__).parent / 'study_plan_with_links.pmwiki'
+	pmwiki_file_path = base_dir / 'study_plan_with_links.pmwiki'
 
 	# Save the PmWiki table to a file
 	with open(pmwiki_file_path, 'w') as file:
