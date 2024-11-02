@@ -103,7 +103,7 @@ def generate_pmwiki_table(table):
     pmwiki_table = "|| border=1\n"
     
     # Calculate the maximum length of each column for alignment
-    col_max_lengths = table.applymap(lambda x: len(str(x)) if not pd.isna(x) else 0).max().to_dict()
+    col_max_lengths = table.map(lambda x: len(str(x)) if not pd.isna(x) else 0).max().to_dict()
 
     for irow, row in zip(range(table.shape[0]), table.index):
         for col in table.columns:
