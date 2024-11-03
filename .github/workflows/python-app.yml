@@ -10,10 +10,8 @@ permissions:
   contents: read
 
 jobs:
-  build:
-
+  runner-job:
     runs-on: ubuntu-latest
-
     services:
       postgres:
         image: postgres:latest
@@ -28,6 +26,9 @@ jobs:
           --health-retries 5
         ports:
           - 5432:5432
+  build:
+
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
