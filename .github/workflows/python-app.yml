@@ -10,8 +10,10 @@ permissions:
   contents: read
 
 jobs:
-  runner-job:
+  build:
+
     runs-on: ubuntu-latest
+
     services:
       postgres:
         image: postgres:latest
@@ -26,10 +28,6 @@ jobs:
           --health-retries 5
         ports:
           - 5432:5432
-  build:
-
-    runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python 3.12
