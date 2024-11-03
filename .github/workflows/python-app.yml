@@ -44,11 +44,15 @@ jobs:
     - name: Install dependencies
       run: |
         conda env update --file install_environment/environment.yml --name test-environment
+    - name: Install ccache
+      run: sudo apt-get install -y ccache
     - name: Clone pdf2htmlEX repository
       run: |
         TEMP_DIR=$(mktemp -d)
         git clone https://github.com/telmop/pdf2htmlEX.git $TEMP_DIR/pdf2htmlEX
         cd $TEMP_DIR/pdf2htmlEX
+        export CC="ccache gcc"
+        export CXX="ccache g++"
         ./buildScripts/buildInstallLocallyApt
     - name: Lint with flake8
       run: |
