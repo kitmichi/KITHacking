@@ -26,6 +26,43 @@ cd $TEMP_DIR/pdf2htmlEX
 sudo apt-get update
 sudo apt-get install -y google-chrome-stable
 
+# Install Docker using apt
+install_docker() {
+  # Set up Docker's apt repository.
+  # Add Docker's official GPG key:
+  sudo apt-get update
+  sudo apt-get install -y ca-certificates curl
+  sudo install -m 0755 -d /etc/apt/keyrings
+  sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+  sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+  # Add the repository to Apt sources:
+  echo \
+    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
+    $(. /etc/os-release && echo \"$VERSION_CODENAME\") stable" | \
+    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  sudo apt-get update
+
+  # To install the latest version, run:
+  sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+  # enable and start docker service
+  sudo systemctl enable docker
+  sudo systemctl start docker
+  sudo systemctl status docker
+
+  # Verify that the installation is successful by running the hello-world image:
+  sudo docker run hello-world
+}
+
+set_up_postgres() {
+  docker pull postgres
+  docker run --name my-postgres -e POSTGRES_PASSWORD=my_password -d -p 5432:5432 postgres
+}
+
+install_docker
+set_up_postgres
+
 # see also .github/workflows/python-app.yml
 ```
 

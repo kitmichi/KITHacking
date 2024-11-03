@@ -10,3 +10,5 @@ dependencies:
 - kitmichi::pypdf2htmlex
 - pytest
 - flake8
+- anaconda::sqlalchemy
+- anaconda::psycopg2
