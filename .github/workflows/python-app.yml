@@ -14,6 +14,21 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: my_password
+          POSTGRES_DB: mydatabase
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python 3.12
@@ -36,6 +51,7 @@ jobs:
         git clone https://github.com/telmop/pdf2htmlEX.git $TEMP_DIR/pdf2htmlEX
         cd $TEMP_DIR/pdf2htmlEX
         ./buildScripts/buildInstallLocallyApt
+    - name: 
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
