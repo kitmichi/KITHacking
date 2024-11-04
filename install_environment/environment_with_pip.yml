@@ -52,6 +52,7 @@ dependencies:
   - pandas=2.2.2=py312h526ad5a_0
   - pip=24.2=py312h06a4308_0
   - pluggy=1.0.0=py312h06a4308_1
+  - prettytable=3.12.0=pyhd8ed1ab_0
   - psycopg2=2.9.9=py312h5eee18b_0
   - pycodestyle=2.12.1=py312h06a4308_0
   - pyflakes=3.2.0=py312h06a4308_0
@@ -82,6 +83,7 @@ dependencies:
   - typing_extensions=4.11.0=py312h06a4308_0
   - tzdata=2024b=h04d1e81_0
   - urllib3=2.2.3=py312h06a4308_0
+  - wcwidth=0.2.5=pyhd3eb1b0_0
   - webdriver-manager=4.0.2=pyhd8ed1ab_0
   - websocket-client=1.8.0=py312h06a4308_0
   - wheel=0.44.0=py312h06a4308_0

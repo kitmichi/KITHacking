@@ -12,3 +12,4 @@ dependencies:
 - flake8
 - anaconda::sqlalchemy
 - anaconda::psycopg2
+- conda-forge::prettytable
