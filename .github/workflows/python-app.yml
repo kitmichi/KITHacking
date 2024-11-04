@@ -39,23 +39,70 @@ jobs:
       with:
         python-version: "3.12"
         auto-update-conda: true
-        activate-environment: test-environment
-        environment-file: install_environment/environment.yml
-    - name: Install dependencies
+        activate-environment: anaconda-client-env
+    - name: Get Date
+      id: get-date
+      run: echo "today=$(/bin/date -u '+%Y%m%d')" >> $GITHUB_OUTPUT
+      shell: bash
+    - name: Get Conda base path
+      id: get-conda-path
+      run: echo "CONDA_BASE=$(conda info --base)" >> $GITHUB_OUTPUT
+    
+    - name: Cache Conda env
+      uses: actions/cache@v3
+      with:
+        path: ${{ steps.get-conda-path.outputs.CONDA_BASE }}/envs
+        key:
+          conda-${{ runner.os }}--${{ runner.arch }}--${{
+          steps.get-date.outputs.today }}-${{
+          hashFiles('install_environment/environment.yml') }}-${{ env.CACHE_NUMBER
+          }}
+      env:
+        # Increase this value to reset cache if etc/example-environment.yml has not changed
+        CACHE_NUMBER: 0
+      id: cache
+    - name: Update environment
+      run:
+        conda env update -n anaconda-client-env -f
+        install_environment/environment.yml
+      if: steps.cache.outputs.cache-hit != 'true'
+
+    - name: Get latest commit SHA of pdf2htmlEX
+      id: sha-pdf2htmlEX
+      run: echo "commit_sha=$(gh api repos/telmop/pdf2htmlEX/commits --jq '.[0].sha')" >> "$GITHUB_OUTPUT"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Cache dependencies pdf2htmlEX
+      id: cache-pdf2htmlEX
+      uses: actions/cache@v3
+      with:
+        path: /home/runner/.cache/pdf2htmlEX
+        key: ${{ runner.os }}-cache-${{ steps.sha-pdf2htmlEX.outputs.commit_sha }}
+  
+    - name: Clone pdf2htmlEX repository if cache miss
+      if: steps.cache-pdf2htmlEX.outputs.cache-hit != 'true'
       run: |
-        conda env update --file install_environment/environment.yml --name test-environment
-    - name: Clone pdf2htmlEX repository
-      run: |
-        TEMP_DIR=$(mktemp -d)
-        git clone https://github.com/telmop/pdf2htmlEX.git $TEMP_DIR/pdf2htmlEX
-        cd $TEMP_DIR/pdf2htmlEX
+        CACHE_DIR="/home/runner/.cache"
+        git clone https://github.com/telmop/pdf2htmlEX.git $CACHE_DIR/pdf2htmlEX
+        cd $CACHE_DIR/pdf2htmlEX
         ./buildScripts/buildInstallLocallyApt
+        
+    - name: Install pdf2htmlEX if cache hit
+      if: steps.cache-pdf2htmlEX.outputs.cache-hit == 'true'
+      run: |
+        cd /home/runner/.cache/pdf2htmlEX
+        export PDF2HTMLEX_PREFIX=/usr/local
+        ./buildScripts/installPdf2htmlEX
+    - name: Test pdf2htmlEX installation
+      run: pdf2htmlEX -v
+  
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
-        conda run -n test-environment flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --exclude=$TEMP_DIR
+        conda run -n anaconda-client-env flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --exclude=$TEMP_DIR
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        conda run -n test-environment flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics --exclude=$TEMP_DIR
+        conda run -n anaconda-client-env flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics --exclude=$TEMP_DIR
     - name: Install Google Chrome
       run: |
         sudo apt-get update
@@ -64,4 +111,4 @@ jobs:
       env:
         PYTHONPATH: src
       run: |
-        conda run -n test-environment pytest
+        conda run -n anaconda-client-env pytest
