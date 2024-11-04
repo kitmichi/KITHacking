@@ -1,0 +1,4 @@
+envs_dirs:
+  - /home/runner/miniconda/envs
+pkgs_dirs:
+  - /home/runner/miniconda/pkgs
