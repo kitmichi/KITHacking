@@ -1,4 +1,5 @@
 from concurrent.futures import ProcessPoolExecutor
+import multiprocessing
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
@@ -110,6 +111,7 @@ class SpecializationsExtractor:
         logging.info("Starting extraction process")
         data = self.get_specializations_links(url)
         processor = Processor(data, self.base_dir)
+        multiprocessing.set_start_method("spawn")
         with ProcessPoolExecutor(max_workers=10) as executor:
             executor.map(processor.process, data.keys())
         logging.info("Extraction process completed")
