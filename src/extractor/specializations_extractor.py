@@ -1,4 +1,5 @@
 from concurrent.futures import ProcessPoolExecutor
+import multiprocessing
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
@@ -25,6 +26,7 @@ class Processor:
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
+        options.add_argument('--disable-extensions')  # This line disables extensions
 
         driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
         
@@ -43,6 +45,7 @@ class Processor:
             cells = row.find_elements(By.TAG_NAME, 'td')
             for column_name, idx in column_mapping.items():
                 table_data[column_name][row_idx] = cells[idx].text
+        driver.quit()
 
         # Ensure the directory exists
         file_path.parent.mkdir(parents=True, exist_ok=True)
@@ -58,18 +61,15 @@ class Processor:
 class SpecializationsExtractor:
     def __init__(self, base_dir=Path(__file__).parent):
         self.base_dir = base_dir
+        logging.basicConfig(level=logging.INFO)
+
+    def get_specializations_links(self, url):
         options = Options()
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
 
         self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-        logging.basicConfig(level=logging.INFO)
-
-    def __del__(self):
-        self.driver.quit()
-
-    def get_specializations_links(self, url):
         try:
             logging.info(f"Accessing URL: {url}")
             self.driver.get(url)
@@ -104,12 +104,15 @@ class SpecializationsExtractor:
         except Exception as e:
             logging.error(f"Error in get_specializations_links: {e}")
             return {}
+        finally:
+            self.driver.quit()
 
     def extract_and_print_tables(self, url="https://campus.studium.kit.edu/events/audience.php#!campus/all/audience.asp?gguid=0xD7C07D509F5B453399672E5D323CB79B"):
         logging.info("Starting extraction process")
         data = self.get_specializations_links(url)
         processor = Processor(data, self.base_dir)
-        with ProcessPoolExecutor() as executor:
+        multiprocessing.set_start_method("spawn")
+        with ProcessPoolExecutor(max_workers=10) as executor:
             executor.map(processor.process, data.keys())
         logging.info("Extraction process completed")
 
