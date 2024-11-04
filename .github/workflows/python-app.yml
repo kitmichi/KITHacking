@@ -44,16 +44,37 @@ jobs:
     - name: Install dependencies
       run: |
         conda env update --file install_environment/environment.yml --name test-environment
-    - name: Install ccache
-      run: sudo apt-get install -y ccache
-    - name: Clone pdf2htmlEX repository
+
+    - name: Get latest commit SHA of pdf2htmlEX
+      id: sha-pdf2htmlEX
+      run: echo "::set-output name=commit_sha::$(gh api repos/telmop/pdf2htmlEX/commits --jq '.[0].sha')"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Cache dependencies pdf2htmlEX
+      id: cache-pdf2htmlEX
+      uses: actions/cache@v3
+      with:
+        path: /home/runner/.cache/pdf2htmlEX
+        key: ${{ runner.os }}-cache-${{ steps.sha-pdf2htmlEX.outputs.commit_sha }}
+  
+    - name: Clone pdf2htmlEX repository if cache miss
+      if: steps.cache-pdf2htmlEX.outputs.cache-hit != 'true'
       run: |
-        TEMP_DIR=$(mktemp -d)
-        git clone https://github.com/telmop/pdf2htmlEX.git $TEMP_DIR/pdf2htmlEX
-        cd $TEMP_DIR/pdf2htmlEX
-        export CC="ccache gcc"
-        export CXX="ccache g++"
+        CACHE_DIR="/home/runner/.cache"
+        git clone https://github.com/telmop/pdf2htmlEX.git $CACHE_DIR/pdf2htmlEX
+        cd $CACHE_DIR/pdf2htmlEX
         ./buildScripts/buildInstallLocallyApt
+        
+    - name: Install pdf2htmlEX if cache hit
+      if: steps.cache-pdf2htmlEX.outputs.cache-hit == 'true'
+      run: |
+        cd /home/runner/.cache/pdf2htmlEX
+        export PDF2HTMLEX_PREFIX=/usr/local
+        ./buildScripts/installPdf2htmlEX
+    - name: Test pdf2htmlEX installation
+      run: pdf2htmlEX -v
+  
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
