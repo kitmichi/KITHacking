@@ -37,6 +37,7 @@ jobs:
     - name: Install Miniconda
       uses: conda-incubator/setup-miniconda@v3
       with:
+        condarc-file: install_environment/condarc.yml
         python-version: "3.12"
         auto-update-conda: true
         activate-environment: anaconda-client-env
