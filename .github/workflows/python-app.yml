@@ -37,6 +37,7 @@ jobs:
     - name: Install Miniconda
       uses: conda-incubator/setup-miniconda@v3
       with:
+        condarc-file: install_environment/condarc.yml
         python-version: "3.12"
         auto-update-conda: true
         activate-environment: anaconda-client-env
@@ -51,7 +52,7 @@ jobs:
     - name: Cache Conda env
       uses: actions/cache@v3
       with:
-        path: ${{ steps.get-conda-path.outputs.CONDA_BASE }}/envs
+        path: /home/runner/.conda/envs
         key:
           conda-${{ runner.os }}--${{ runner.arch }}--${{
           steps.get-date.outputs.today }}-${{

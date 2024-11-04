@@ -1,0 +1,4 @@
+envs_dirs:
+  - /home/runner/.conda/envs
+pkgs_dirs:
+  - /home/runner/conda_pkgs_dir
