@@ -46,12 +46,12 @@ def study_plan_to_pmwiki_table(data):
         nonlocal pmwiki
         indent_spaces = " " * indent
         if isinstance(value, dict):
-            art = value.get("art", "")
+            type = value.get("type", "")
             lp = value.get("LP", "")
             link = value.get("link", "")
             if str(key).startswith("T-"):
                 key = f"[[{key.replace("/", "_")} | {key}]]"
-            pmwiki += f"||{indent_spaces}{key} ||{art} ||{lp} ||[[{link} | link]] ||\n"
+            pmwiki += f"||{indent_spaces}{key} ||{type} ||{lp} ||[[{link} | link]] ||\n"
             for sub_key, sub_value in value.items():
                 if isinstance(sub_value, dict):
                     process_item(sub_key, sub_value, indent + 4)
