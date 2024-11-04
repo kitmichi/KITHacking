@@ -30,15 +30,15 @@ class StudyPlanProcessor:
 			cells = row.find_elements(By.TAG_NAME, 'td')
 			if len(cells) > 1:
 				titel = cells[1].text.strip()
-				art = cells[2].text.strip()
-				LP = cells[3].text.strip()
+				type = cells[2].text.strip()
+				CP = cells[3].text.strip()
 				link_tag = cells[1].find_element(By.TAG_NAME, 'a')
 				link = link_tag.get_attribute('href') if link_tag else None
 
 				container = self.get_container(hierarchy_class, titel)
 				if container is not None:
 					container[titel] = {
-						"art": art,
-						"LP": LP,
+						"type": type,
+						"CP": CP,
 						"link": link,
 					}
