@@ -41,9 +41,9 @@ jobs:
         auto-update-conda: true
         activate-environment: test-environment
         environment-file: install_environment/environment.yml
-    - name: Install dependencies
-      run: |
-        conda env update --file install_environment/environment.yml --name test-environment
+    # - name: Install dependencies
+    #   run: |
+    #     conda env update --file install_environment/environment.yml --name test-environment
 
     - name: Get latest commit SHA of pdf2htmlEX
       id: sha-pdf2htmlEX
