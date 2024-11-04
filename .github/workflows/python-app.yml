@@ -47,7 +47,7 @@ jobs:
 
     - name: Get latest commit SHA of pdf2htmlEX
       id: sha-pdf2htmlEX
-      run: echo "::set-output name=commit_sha::$(gh api repos/telmop/pdf2htmlEX/commits --jq '.[0].sha')"
+      run: echo "commit_sha=$(gh api repos/telmop/pdf2htmlEX/commits --jq '.[0].sha')" >> "$GITHUB_OUTPUT"
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
