@@ -8,7 +8,7 @@ def create_database():
         user="postgres",
         password="my_password",
         host="localhost",
-        port="5432"
+        port="5432",
     )
     conn.autocommit = True
 
@@ -16,12 +16,14 @@ def create_database():
     cursor = conn.cursor()
 
     # Check if the database exists
-    cursor.execute("SELECT 1 FROM pg_database WHERE datname = %s", ('mydatabase',))
+    cursor.execute("SELECT 1 FROM pg_database WHERE datname = %s", ("mydatabase",))
     exists = cursor.fetchone()
 
     # Create the new database if it does not exist
     if not exists:
-        cursor.execute(sql.SQL("CREATE DATABASE {}").format(sql.Identifier('mydatabase')))
+        cursor.execute(
+            sql.SQL("CREATE DATABASE {}").format(sql.Identifier("mydatabase"))
+        )
         print("Database created successfully!")
     else:
         print("Database already exists.")

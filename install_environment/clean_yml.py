@@ -1,14 +1,17 @@
-import yaml
-
-from pathlib import Path
 import subprocess
+from pathlib import Path
+
+import yaml
 
 
 def export_conda_environments(file_path: Path, file_pip_path: Path):
     try:
         # Run the conda export command in a bash shell
         subprocess.run(
-            f'bash -c "source ~/.bashrc && conda env export --file {file_path} --from-history"',
+            (
+                f'bash -c "source ~/.bashrc && '
+                f'conda env export --file {file_path} --from-history"'
+            ),
             shell=True,
             check=True,
             stdout=subprocess.PIPE,

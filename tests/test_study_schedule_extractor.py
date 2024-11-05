@@ -1,14 +1,16 @@
-from pathlib import Path
 import tempfile
+from pathlib import Path
+
 from extractor.study_schedule_extractor import main
 
+
 def test_main():
-	temp_dir = tempfile.TemporaryDirectory(dir=str(Path(__file__).parent))
-	base_path = Path(temp_dir.name)
-	main(base_path)
-	file_path = base_path / "study_schedule_with_links.pmwiki"
-	assert file_path.exists(), "pmwiki file does not exist"
-	expected_content = """
+    temp_dir = tempfile.TemporaryDirectory(dir=str(Path(__file__).parent))
+    base_path = Path(temp_dir.name)
+    main(base_path)
+    file_path = base_path / "study_schedule_with_links.pmwiki"
+    assert file_path.exists(), "pmwiki file does not exist"
+    expected_content = """
 ||!Key ||!Art ||!LP ||!Link ||
 ||88-048-H-2018 – Elektrotechnik und Informationstechnik Master 2018 || ||120,0 ||[[https://campus.kit.edu/sp/campus/all/abstractProductView.asp?gguid=0xF654B5E6CC6842A8B943858D89F69741&capvguid=0x32F8959548FE4CE8A0EA1FCE19956FB7&tguid=0x8B8BEF2D6B894380973363ED68D60E22 | link]] ||
 ||    Masterarbeit ||PF ||30,0 ||[[https://campus.kit.edu/sp/campus/all/abstractFieldView.asp?gguid=0x559748BB56AC4CC18CEF0C64FE9879A4&tguid=0x8B8BEF2D6B894380973363ED68D60E22 | link]] ||
@@ -26,8 +28,10 @@ def test_main():
 ||        M-ETIT-103264 – Informationsfusion ||WP: Grundlagen zur Vertiefungsrichtung ||4,0 ||[[https://campus.kit.edu/sp/campus/all/abstractModuleView.asp?gguid=0xCC315DBA354D42509CD6B12381CE4F50&camvguid=0x1ED1B4CB630E4C96A6058B06058CA59E&camvceid=CMPEL_1C5C3341&cafiguid=0x87CF8F857B454E4B9E6465DC030218FC&tguid=0x8B8BEF2D6B894380973363ED68D60E22 | link]] ||
 ||            [[T-ETIT-106499 – Informationsfusion | T-ETIT-106499 – Informationsfusion]] ||PF ||4,0 ||[[https://campus.kit.edu/sp/campus/all/abstractBrickView.asp?gguid=0x0E14C35D6351482B9B3E88B1B3D5C901&cabvguid=0x8A7D322E5CC74CE0A25F0025875E7D26&camvguid=0x1ED1B4CB630E4C96A6058B06058CA59E&camvceid=CMPEL_1C5C3341&cafiguid=0x87CF8F857B454E4B9E6465DC030218FC&tguid=0x8B8BEF2D6B894380973363ED68D60E22 | link]] ||
 ||        M-ETIT-105982 – Measurement Technology ||WP: Grundlagen zur Vertiefungsrichtung ||5,0 ||[[https://campus.kit.edu/sp/campus/all/abstractModuleView.asp?gguid=0x0401218B10B2495C8E23426404F2406D&camvguid=0x3EAD688B19E14C4D9111E148732F7E8A&camvceid=CMPEL_1C5C3341&cafiguid=0x87CF8F857B454E4B9E6465DC030218FC&tguid=0x8B8BEF2D6B894380973363ED68D60E22 | link]] ||
-""".strip()
-	file_content = file_path.read_text().strip()
+""".strip()  # noqa: E501
+    file_content = file_path.read_text().strip()
 
-	# Assert that the file content matches the expected content
-	assert file_content.startswith(expected_content), "File content does not match the expected content"
+    # Assert that the file content matches the expected content
+    assert file_content.startswith(
+        expected_content
+    ), "File content does not match the expected content"

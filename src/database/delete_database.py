@@ -8,7 +8,7 @@ def delete_database():
         user="postgres",
         password="my_password",
         host="localhost",
-        port="5432"
+        port="5432",
     )
     conn.autocommit = True
 
@@ -16,12 +16,12 @@ def delete_database():
     cursor = conn.cursor()
 
     # Check if the database exists
-    cursor.execute("SELECT 1 FROM pg_database WHERE datname = %s", ('mydatabase',))
+    cursor.execute("SELECT 1 FROM pg_database WHERE datname = %s", ("mydatabase",))
     exists = cursor.fetchone()
 
     # Drop the database if it exists
     if exists:
-        cursor.execute(sql.SQL("DROP DATABASE {}").format(sql.Identifier('mydatabase')))
+        cursor.execute(sql.SQL("DROP DATABASE {}").format(sql.Identifier("mydatabase")))
         print("Database deleted successfully!")
     else:
         print("Database does not exist.")
