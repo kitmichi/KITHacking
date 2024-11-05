@@ -1,12 +1,12 @@
 from pathlib import Path
 import tempfile
-from extractor.study_plan_extractor import main
+from extractor.study_schedule_extractor import main
 
 def test_main():
 	temp_dir = tempfile.TemporaryDirectory(dir=str(Path(__file__).parent))
 	base_path = Path(temp_dir.name)
 	main(base_path)
-	file_path = base_path / "study_plan_with_links.pmwiki"
+	file_path = base_path / "study_schedule_with_links.pmwiki"
 	assert file_path.exists(), "pmwiki file does not exist"
 	expected_content = """
 ||!Key ||!Art ||!LP ||!Link ||

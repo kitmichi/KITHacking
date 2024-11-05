@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 
 class StudyPlanProcessor:
 	def __init__(self):
-		self.study_plan = {}
+		self.study_schedule = {}
 		self.current_study = None
 		self.current_section = None
 		self.current_module = None
@@ -12,16 +12,16 @@ class StudyPlanProcessor:
 	def get_container(self, hierarchy_class, titel):
 		if hierarchy_class == 'hierarchy1':
 			self.current_study = titel
-			return self.study_plan
+			return self.study_schedule
 		elif hierarchy_class == 'hierarchy2':
 			self.current_section = titel
-			return self.study_plan.setdefault(self.current_study, {})
+			return self.study_schedule.setdefault(self.current_study, {})
 		elif hierarchy_class == 'hierarchy3':
 			self.current_module = titel
-			return self.study_plan.setdefault(self.current_study, {}).setdefault(self.current_section, {})
+			return self.study_schedule.setdefault(self.current_study, {}).setdefault(self.current_section, {})
 		elif hierarchy_class == 'hierarchy4':
 			self.current_brick = titel
-			return self.study_plan.setdefault(self.current_study, {}).setdefault(self.current_section, {}).setdefault(self.current_module, {})
+			return self.study_schedule.setdefault(self.current_study, {}).setdefault(self.current_section, {}).setdefault(self.current_module, {})
 		return None
 
 	def process_rows(self, rows):

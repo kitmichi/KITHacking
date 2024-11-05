@@ -1,7 +1,7 @@
 from sqlalchemy import Integer, create_engine, Column, String, Table, ForeignKey
 from sqlalchemy.orm import relationship, sessionmaker, declarative_base
 
-from extractor.study_plan_extractor import get_study_plan
+from extractor.study_schedule_extractor import get_study_schedule
 
 import shutil
 from prettytable import PrettyTable
@@ -110,8 +110,8 @@ def update_study_schedule():
 
     import re
 
-    # Assuming get_study_plan() is defined elsewhere
-    study_plan = get_study_plan()
+    # Assuming get_study_schedule() is defined elsewhere
+    study_schedule = get_study_schedule()
 
     # Regular expression pattern to match the part before "–"
     pattern = r'^[^\s]+'
@@ -122,7 +122,7 @@ def update_study_schedule():
         "link"
     ]
 
-    for field_name, field_content in study_plan['88-048-H-2018 – Elektrotechnik und Informationstechnik Master 2018'].items():
+    for field_name, field_content in study_schedule['88-048-H-2018 – Elektrotechnik und Informationstechnik Master 2018'].items():
         if field_name in uninteresting_parts:
             continue
         field = Field(
