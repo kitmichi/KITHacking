@@ -139,7 +139,10 @@ class SpecializationsExtractor:
 
     def extract_and_print_tables(
         self,
-        url="https://campus.studium.kit.edu/events/audience.php#!campus/all/audience.asp?gguid=0xD7C07D509F5B453399672E5D323CB79B",
+        url=(
+            "https://campus.studium.kit.edu/events/audience.php#!campus/all/"
+            "audience.asp?gguid=0xD7C07D509F5B453399672E5D323CB79B"
+        ),
     ):
         logging.info("Starting extraction process")
         data = self.get_specializations_links(url)

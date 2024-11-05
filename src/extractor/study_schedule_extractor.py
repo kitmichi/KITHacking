@@ -13,7 +13,11 @@ from .study_schedule_processor import StudyPlanProcessor
 
 def get_study_schedule():
     # URL to be fetched
-    url = "https://campus.studium.kit.edu/events/audience.php#!campus/all/abstractStudyScheduleView.asp?gguid=0xF654B5E6CC6842A8B943858D89F69741&capvguid=0x32F8959548FE4CE8A0EA1FCE19956FB7"
+    url = (
+        "https://campus.studium.kit.edu/events/audience.php#!campus/all/"
+        "abstractStudyScheduleView.asp?gguid=0xF654B5E6CC6842A8B943858D89F69741"
+        "&capvguid=0x32F8959548FE4CE8A0EA1FCE19956FB7"
+    )
 
     # Initialize the WebDriver
     options = Options()
