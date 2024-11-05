@@ -7,9 +7,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 
-from .study_plan_processor import StudyPlanProcessor
+from .study_schedule_processor import StudyPlanProcessor
 
-def get_study_plan():
+def get_study_schedule():
 	# URL to be fetched
 	url = "https://campus.studium.kit.edu/events/audience.php#!campus/all/abstractStudyScheduleView.asp?gguid=0xF654B5E6CC6842A8B943858D89F69741&capvguid=0x32F8959548FE4CE8A0EA1FCE19956FB7"
 
@@ -37,10 +37,10 @@ def get_study_plan():
 
 	# Close the WebDriver
 	driver.quit()
-	return processor.study_plan
+	return processor.study_schedule
 
 # Function to convert JSON to PmWiki table with simulated indentation and special formatting for keys containing "T-ETIT-"
-def study_plan_to_pmwiki_table(data):
+def study_schedule_to_pmwiki_table(data):
     pmwiki = "||!Key ||!Art ||!LP ||!Link ||\n"
     def process_item(key, value, indent=0):
         nonlocal pmwiki
@@ -65,13 +65,13 @@ def study_plan_to_pmwiki_table(data):
     return pmwiki
 
 def main(base_dir = Path(__file__).parent):
-	study_plan = get_study_plan()
+	study_schedule = get_study_schedule()
 
 	# Convert JSON to PmWiki table
-	pmwiki_table = study_plan_to_pmwiki_table(study_plan)
+	pmwiki_table = study_schedule_to_pmwiki_table(study_schedule)
 
 	# Path to save the PmWiki table file
-	pmwiki_file_path = base_dir / 'study_plan_with_links.pmwiki'
+	pmwiki_file_path = base_dir / 'study_schedule_with_links.pmwiki'
 
 	# Save the PmWiki table to a file
 	with open(pmwiki_file_path, 'w') as file:
