@@ -41,6 +41,7 @@ jobs:
         python-version: "3.12"
         auto-update-conda: true
         activate-environment: anaconda-client-env
+        conda-remove-defaults: "true"
     - name: Get Date
       id: get-date
       run: echo "today=$(/bin/date -u '+%Y%m%d')" >> $GITHUB_OUTPUT
