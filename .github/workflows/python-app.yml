@@ -36,7 +36,7 @@ jobs:
         condarc-file: install_environment/condarc.yml
         auto-update-conda: true
         activate-environment: anaconda-client-env
-        conda-remove-defaults: "true"
+        channels: defaults
     - name: Get Date
       id: get-date
       run: echo "today=$(/bin/date -u '+%Y%m%d')" >> $GITHUB_OUTPUT
