@@ -3,13 +3,17 @@ channels:
   - https://repo.anaconda.com/pkgs/r
 dependencies:
   - anaconda::pandas
+  - anaconda::psycopg2
+  - anaconda::sqlalchemy
+  - conda-forge::prettytable
+  - conda-forge::python-dotenv
   - conda-forge::pyyaml
+  - conda-forge::ruff
   - conda-forge::selenium
   - conda-forge::webdriver-manager
-  - python=3.12
+  - flake8
   - kitmichi::pypdf2htmlex
   - pytest
-  - flake8
-  - anaconda::sqlalchemy
-  - anaconda::psycopg2
-  - conda-forge::prettytable
+  - python=3.12
+  - conda-forge::icalendar
+  - conda-forge::tabulate
