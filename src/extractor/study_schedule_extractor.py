@@ -61,7 +61,7 @@ def study_schedule_to_pmwiki_table(data):
             CP = value.get("CP", "")
             link = value.get("link", "")
             if str(key).startswith("T-"):
-                key = f"[[{key.replace("/", "_")} | {key}]]"
+                key = f'[[{key.replace("/", "_")} | {key}]]'
             pmwiki += f"||{indent_spaces}{key} ||{type} ||{CP} ||[[{link} | link]] ||\n"
             for sub_key, sub_value in value.items():
                 if isinstance(sub_value, dict):

@@ -93,12 +93,12 @@ def print_mins(min_distances):
                 continue
             min_distance = min_distance_xx[direction]
             print(
-                f"Closest pair {direction}: "
-                f"{min_distance["pos1"]["text"]} at "
-                f"({min_distance["pos1"]["x"]}, {min_distance["pos1"]["y"]}) and "
-                f"{min_distance["pos2"]["text"]} at "
-                f"({min_distance["pos2"]["x"]}, {min_distance["pos2"]["y"]}), "
-                f"distance: {min_distance["distance"]}"
+                f'Closest pair {direction}: '
+                f'{min_distance["pos1"]["text"]} at '
+                f'({min_distance["pos1"]["x"]}, {min_distance["pos1"]["y"]}) and '
+                f'{min_distance["pos2"]["text"]} at '
+                f'({min_distance["pos2"]["x"]}, {min_distance["pos2"]["y"]}), '
+                f'distance: {min_distance["distance"]}'
             )
         print("\n")
 
