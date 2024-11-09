@@ -80,6 +80,11 @@ python install_environment/clean_yml.py
 conda env remove -p .conda
 ```
 
+# create conda environment
+```
+conda env create -f install_environment/environment.yml -p .conda
+```
+
 # update conda environment
 ```
 conda env update --file install_environment/environment.yml -p ./.conda
