@@ -19,6 +19,7 @@ def test():
     text = {}
     fitz_rect = {
         "Lecture": fitz.Rect(119.0, 156.0, 230.0, 508.0),
+        "Lecture negative": fitz.Rect(124.0, 422.0, 225.0, 427.0),
         "Exercise": fitz.Rect(484.0, 200.0, 592.0, 350.0),
     }
     with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as temp_dir:
