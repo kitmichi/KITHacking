@@ -65,6 +65,11 @@ set_up_postgres
 
 # see also .github/workflows/python-app.yml
 ```
+create `passwords.env`
+```
+ILIAS_USERNAME=xxxxx@student.kit.edu
+ILIAS_PASSWORD=password
+```
 
 # recommended build environment
 - debian based os

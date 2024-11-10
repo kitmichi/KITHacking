@@ -3,7 +3,7 @@ channels:
   - https://repo.anaconda.com/pkgs/r
 dependencies:
   - anaconda::pandas
-  - anaconda::psycopg2
+  - psycopg2==2.9.9
   - anaconda::sqlalchemy
   - conda-forge::prettytable
   - conda-forge::python-dotenv
@@ -17,3 +17,5 @@ dependencies:
   - python=3.12
   - conda-forge::icalendar
   - conda-forge::tabulate
+  - conda-forge::pymupdf
+  - anaconda::pyqt
