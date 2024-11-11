@@ -10,8 +10,8 @@ def test():
     tsv, ics, md = write_files(
         base_path,
         (
-            "https://ilias.studium.kit.edu/login.php?"
-            "client_id=produktiv&cmd=force_login&lang=de"
+            "https://ilias.studium.kit.edu/ilias.php?"
+            "baseClass=ilrepositorygui&cmd=sendfile&ref_id=2512118"
         ),
     )
     expected_content = """
