@@ -131,7 +131,7 @@ def create_event(row, old_event: Component):
         )
         url = "https://campus.studium.kit.edu/ev/LAnH51SMSaWn2jX-ZrojyQ"
     else:
-        summary = ":2302117 - Measurement Technology (V), Heizmann, ETIT"
+        summary = "2302117 - Measurement Technology (V), Heizmann, ETIT"
         url = "https://campus.studium.kit.edu/ev/lxru9u4XTliY9G6QtHP2dw"
     event.add("summary", summary)
     event.add("description", "\n".join([details, url]))
