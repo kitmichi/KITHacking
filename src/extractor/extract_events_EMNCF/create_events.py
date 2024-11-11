@@ -1,10 +1,12 @@
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
-from icalendar import Calendar, Event, Timezone, TimezoneDaylight, TimezoneStandard
+from icalendar import Event
 from tabulate import tabulate
+
+from calendar_common.header import create_calendar_with_header
 
 
 # Function to get the weekday of a date
@@ -93,34 +95,6 @@ def create_event(row):
     return event
 
 
-def add_timezone(calendar):
-    timezone = Timezone()
-    timezone.add("TZID", "Europe/Berlin")
-    timezone.add("X-LIC-LOCATION", "Europe/Berlin")
-
-    daylight = TimezoneDaylight()
-    daylight.add("TZOFFSETFROM", timedelta(hours=1))
-    daylight.add("TZOFFSETTO", timedelta(hours=2))
-    daylight.add("TZNAME", "CEST")
-    daylight.add("DTSTART", datetime(1970, 3, 29, 2, 0, 0))
-    daylight.add(
-        "RRULE", {"FREQ": "YEARLY", "INTERVAL": 1, "BYDAY": "-1SU", "BYMONTH": 3}
-    )
-    timezone.add_component(daylight)
-
-    standard = TimezoneStandard()
-    standard.add("TZOFFSETFROM", timedelta(hours=2))
-    standard.add("TZOFFSETTO", timedelta(hours=1))
-    standard.add("TZNAME", "CET")
-    standard.add("DTSTART", datetime(1970, 10, 25, 3, 0, 0))
-    standard.add(
-        "RRULE", {"FREQ": "YEARLY", "INTERVAL": 1, "BYDAY": "-1SU", "BYMONTH": 10}
-    )
-    timezone.add_component(standard)
-
-    calendar.add_component(timezone)
-
-
 def write_files(base_dir: Path):
     # Configure logging
     logging.basicConfig(level=logging.INFO)
@@ -129,8 +103,7 @@ def write_files(base_dir: Path):
     tsv = base_dir / "events.tsv"
     table.to_csv(tsv, sep="\t", index=False)
 
-    calendar = Calendar()
-    add_timezone(calendar)
+    calendar = create_calendar_with_header()
     for irow in range(table.shape[0]):
         event = create_event(table.iloc[irow])
         calendar.add_component(event)

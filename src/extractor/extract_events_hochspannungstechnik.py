@@ -1,11 +1,12 @@
 import logging
 import tempfile
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
 
-from icalendar import Calendar, Event, Timezone, TimezoneDaylight, TimezoneStandard
+from icalendar import Event
 from tabulate import tabulate
 
+from calendar_common.header import create_calendar_with_header
 from extractor.pdf_table_extractor import extract_table
 from ilias.pdf_downloader import PdfDownloader
 
@@ -52,34 +53,6 @@ def create_event(row):
     return event
 
 
-def add_timezone(calendar):
-    timezone = Timezone()
-    timezone.add("TZID", "Europe/Berlin")
-    timezone.add("X-LIC-LOCATION", "Europe/Berlin")
-
-    daylight = TimezoneDaylight()
-    daylight.add("TZOFFSETFROM", timedelta(hours=1))
-    daylight.add("TZOFFSETTO", timedelta(hours=2))
-    daylight.add("TZNAME", "CEST")
-    daylight.add("DTSTART", datetime(1970, 3, 29, 2, 0, 0))
-    daylight.add(
-        "RRULE", {"FREQ": "YEARLY", "INTERVAL": 1, "BYDAY": "-1SU", "BYMONTH": 3}
-    )
-    timezone.add_component(daylight)
-
-    standard = TimezoneStandard()
-    standard.add("TZOFFSETFROM", timedelta(hours=2))
-    standard.add("TZOFFSETTO", timedelta(hours=1))
-    standard.add("TZNAME", "CET")
-    standard.add("DTSTART", datetime(1970, 10, 25, 3, 0, 0))
-    standard.add(
-        "RRULE", {"FREQ": "YEARLY", "INTERVAL": 1, "BYDAY": "-1SU", "BYMONTH": 10}
-    )
-    timezone.add_component(standard)
-
-    calendar.add_component(timezone)
-
-
 def write_files(base_dir: Path, pdf_url: str):
     # Configure logging
     logging.basicConfig(level=logging.INFO)
@@ -87,16 +60,14 @@ def write_files(base_dir: Path, pdf_url: str):
     with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as temp_dir:
         pdf_downloader = PdfDownloader(
             Path(temp_dir),
-            pdf_url,
         )
-        pdf_path = pdf_downloader.download()
+        pdf_path = pdf_downloader.download(pdf_url)
         table = extract_table_data(pdf_path)
     table.columns = ["Weekday", "Date", "Time", "Event"]
     tsv = base_dir / "events.tsv"
     table.to_csv(tsv, sep="\t", index=False)
 
-    calendar = Calendar()
-    add_timezone(calendar)
+    calendar = create_calendar_with_header()
     for irow in range(table.shape[0]):
         event = create_event(table.iloc[irow])
         calendar.add_component(event)
